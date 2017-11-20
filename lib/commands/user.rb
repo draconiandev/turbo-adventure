@@ -14,17 +14,13 @@ module Commands
     end
 
     def self.list(count)
-      require 'terminal-table'
       list = Models::User.order(id: :desc).limit(count).pluck(:name, :account_number)
-      table = Terminal::Table.new rows: list
-      puts table
+      pretty_print(list)
     end
 
     def self.search_from_cli(query)
-      require 'terminal-table'
       list = Models::User.search(query).pluck(:name, :account_number)
-      table = Terminal::Table.new rows: list
-      puts table
+      pretty_print(list)
     end
 
     def self.destroy(args)
@@ -35,6 +31,14 @@ module Commands
       else
         puts 'User not found'
       end
+    end
+
+    private_class_method
+
+    def self.pretty_print(list)
+      require 'terminal-table'
+      table = Terminal::Table.new rows: list
+      puts table
     end
   end
 end
