@@ -58,7 +58,7 @@ def remove_subcommand_for(user)
   user.arg_name 'account_number'
   user.command :remove do |add|
     add.action do |_global_options, _options, args|
-      Commands::Add::User.new.destroy
+      Commands::User.destroy(args)
     end
   end
 end
