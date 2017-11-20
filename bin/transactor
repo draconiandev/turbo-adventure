@@ -24,7 +24,7 @@ def add_subcommand_for(user)
     add.arg 'passport'
     add.arg 'username'
     add.action do |_global_options, _options, args|
-      Commands::User.new.create(args)
+      Commands::User.create(args)
     end
   end
 end
