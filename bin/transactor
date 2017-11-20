@@ -1,68 +1,66 @@
 #!/usr/bin/env ruby
 require 'gli'
-begin # XXX: Remove this begin/rescue before distributing your app
 require 'transactor'
-rescue LoadError
-  STDERR.puts "In development, you need to use `bundle exec bin/transactor` to run your app"
-  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
-  STDERR.puts "Feel free to remove this message from bin/transactor now"
-  exit 64
-end
 
 include GLI::App
 
-program_desc 'Describe your application here'
+program_desc 'Rival Corp is a next generation banking company.'
 
 version Transactor::VERSION
 
 subcommand_option_handling :normal
 arguments :strict
 
-desc 'Describe some switch here'
-switch [:s,:switch]
+desc 'Subcommand for all the user options like add, list, remove'
+command :user do |user|
+  user.desc 'Add a user to the system'
+  user.arg_name 'name phone address email pan aadhar passport'
+  user.command :add do |add|
+    add.arg 'name'
+    # add.arg 'phone'
+    # add.arg 'address'
+    # add.arg 'email'
+    # add.arg 'pan'
+    # add.arg 'aadhar'
+    # add.arg 'passport'
+    add.action do |_global_options, _options, args|
+      Commands::User.new.create(args)
+    end
+  end
 
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+  user.desc 'List all the users in the system'
+  user.command :list do |add|
+    add.action do |_global_options, _options, args|
+      Commands::Add::User.new.list
+    end
+  end
 
-desc 'Describe user here'
-arg_name 'Describe arguments to user here'
-command :user do |c|
-  c.desc 'Describe a switch to user'
-  c.switch :s
-
-  c.desc 'Describe a flag to user'
-  c.default_value 'default'
-  c.flag :f
-  c.action do |global_options,options,args|
-
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
-
-    puts "user command ran"
+  user.desc 'Remove a user from the system'
+  user.arg_name 'account_number'
+  user.command :remove do |add|
+    add.action do |_global_options, _options, args|
+      Commands::Add::User.new.destroy
+    end
   end
 end
 
-desc 'Describe transfer here'
-arg_name 'Describe arguments to transfer here'
-command :transfer do |c|
-  c.action do |global_options,options,args|
-    puts "transfer command ran"
-  end
-end
+# desc 'Describe transfer here'
+# arg_name 'Describe arguments to transfer here'
+# command :transfer do |c|
+#   c.action do |global_options,options,args|
+#     puts "transfer command ran"
+#   end
+# end
 
-desc 'Describe compute here'
-arg_name 'Describe arguments to compute here'
-command :compute do |c|
-  c.action do |global_options,options,args|
-    puts "compute command ran"
-  end
-end
+# desc 'Describe compute here'
+# arg_name 'Describe arguments to compute here'
+# command :compute do |c|
+#   c.action do |global_options,options,args|
+#     puts "compute command ran"
+#   end
+# end
 
-pre do |global,command,options,args|
+pre do |_global, _command, _options, _args|
   # Pre logic here
   # Return true to proceed; false to abort and not call the
   # chosen command
@@ -71,7 +69,7 @@ pre do |global,command,options,args|
   true
 end
 
-post do |global,command,options,args|
+post do |_global, _command, _options, _args|
   # Post logic here
   # Use skips_post before a command to skip this
   # block on that command only
@@ -80,6 +78,7 @@ end
 on_error do |exception|
   # Error logic here
   # return false to skip default error handling
+  p exception
   true
 end
 
