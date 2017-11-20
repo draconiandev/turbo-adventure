@@ -18,9 +18,9 @@ module Commands
       Models::User.create_from_cli(args_hash)
     end
 
-    def self.list
+    def self.list(count)
       require 'terminal-table'
-      list = Models::User.all.pluck(:name, :account_number)
+      list = Models::User.order(id: :desc).limit(count).pluck(:name, :account_number)
       table = Terminal::Table.new rows: list
       puts table
     end

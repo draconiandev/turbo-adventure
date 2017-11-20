@@ -31,9 +31,14 @@ end
 
 def list_subcomand_for(user)
   user.desc 'List all the users in the system'
-  user.command :list do |add|
-    add.action do |_global_options, _options, args|
-      Commands::User.list
+  user.arg_name 'count (optional, default -> all)'
+  user.command :list do |list|
+    list.flag %i[c count],
+              desc: 'Specify the count. By default, it returns the last 20',
+              must_match: /\d/,
+              default_value: 20
+    list.action do |_global_options, options, _args|
+      Commands::User.list(options[:count])
     end
   end
 end
