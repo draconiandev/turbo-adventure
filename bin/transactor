@@ -43,6 +43,16 @@ def list_subcomand_for(user)
   end
 end
 
+def search_subcommand_for(user)
+  user.desc 'Search for a user by name or account number'
+  user.arg_name 'query'
+  user.command :search do |add|
+    add.action do |_global_options, _options, args|
+      Commands::User.search_from_cli(args.first)
+    end
+  end
+end
+
 def remove_subcommand_for(user)
   user.desc 'Remove a user from the system'
   user.arg_name 'account_number'
@@ -57,6 +67,7 @@ desc 'Subcommand for all the user options like add, list, remove'
 command :user do |user|
   add_subcommand_for(user)
   list_subcomand_for(user)
+  search_subcommand_for(user)
   remove_subcommand_for(user)
 end
 

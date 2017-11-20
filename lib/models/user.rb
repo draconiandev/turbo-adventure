@@ -15,6 +15,10 @@ module Models
       end
     end
 
+    def self.search(query)
+      where('account_number OR name LIKE ?', "%#{query}%").order(id: :desc)
+    end
+
     private
 
     def generate_account_number

@@ -25,6 +25,13 @@ module Commands
       puts table
     end
 
+    def self.search_from_cli(query)
+      require 'terminal-table'
+      list = Models::User.search(query).pluck(:name, :account_number)
+      table = Terminal::Table.new rows: list
+      puts table
+    end
+
     def remove
       #
     end
