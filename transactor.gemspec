@@ -21,4 +21,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('aruba')
   s.add_development_dependency('pry')
   s.add_runtime_dependency('gli', '2.17.1')
+  s.add_runtime_dependency('activerecord', '5.1.4')
+  s.add_runtime_dependency('sqlite3', '1.3.13')
 end
