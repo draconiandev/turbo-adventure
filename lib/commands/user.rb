@@ -18,8 +18,11 @@ module Commands
       Models::User.create_from_cli(args_hash)
     end
 
-    def list
-      #
+    def self.list
+      require 'terminal-table'
+      list = Models::User.all.pluck(:name, :account_number)
+      table = Terminal::Table.new rows: list
+      puts table
     end
 
     def remove

@@ -33,7 +33,7 @@ def list_subcomand_for(user)
   user.desc 'List all the users in the system'
   user.command :list do |add|
     add.action do |_global_options, _options, args|
-      Commands::Add::User.new.list
+      Commands::User.list
     end
   end
 end

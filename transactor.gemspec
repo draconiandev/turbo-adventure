@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('gli', '2.17.1')
   s.add_runtime_dependency('activerecord', '5.1.4')
   s.add_runtime_dependency('sqlite3', '1.3.13')
+  s.add_runtime_dependency('terminal-table', '1.8.0')
 end
