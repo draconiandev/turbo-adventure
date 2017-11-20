@@ -1,0 +1,5 @@
+= transactor
+
+Generate this with
+    transactor rdoc
+After you have described your command line interface
