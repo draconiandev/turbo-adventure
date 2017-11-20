@@ -7,7 +7,6 @@ module Models
     before_create :generate_account_number
 
     def self.create_from_cli(args)
-      # create!(args)
       user = new(args)
       if user.save
         puts 'Account Number for the created account: ' + user.account_number
