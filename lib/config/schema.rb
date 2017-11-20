@@ -8,7 +8,8 @@ ActiveRecord::Schema.define(version: 1) do
     t.string :email, default: '', null: false
     t.string :pan, default: '', null: false
     t.string :aadhar, default: '', null: false
-    t.string :passport, default: '', null: false
+    t.string :passport
+    t.string :username
     t.string :account_number, default: '', null: false
   end
 end

@@ -11,30 +11,34 @@ version Transactor::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
-desc 'Subcommand for all the user options like add, list, remove'
-command :user do |user|
+def add_subcommand_for(user)
   user.desc 'Add a user to the system'
-  user.arg_name 'name phone address email pan aadhar passport'
+  user.arg_name 'name phone address email pan aadhar passport username'
   user.command :add do |add|
     add.arg 'name'
-    # add.arg 'phone'
-    # add.arg 'address'
-    # add.arg 'email'
-    # add.arg 'pan'
-    # add.arg 'aadhar'
-    # add.arg 'passport'
+    add.arg 'phone'
+    add.arg 'address'
+    add.arg 'email'
+    add.arg 'pan'
+    add.arg 'aadhar'
+    add.arg 'passport'
+    add.arg 'username'
     add.action do |_global_options, _options, args|
       Commands::User.new.create(args)
     end
   end
+end
 
+def list_subcomand_for(user)
   user.desc 'List all the users in the system'
   user.command :list do |add|
     add.action do |_global_options, _options, args|
       Commands::Add::User.new.list
     end
   end
+end
 
+def remove_subcommand_for(user)
   user.desc 'Remove a user from the system'
   user.arg_name 'account_number'
   user.command :remove do |add|
@@ -42,6 +46,13 @@ command :user do |user|
       Commands::Add::User.new.destroy
     end
   end
+end
+
+desc 'Subcommand for all the user options like add, list, remove'
+command :user do |user|
+  add_subcommand_for(user)
+  list_subcomand_for(user)
+  remove_subcommand_for(user)
 end
 
 # desc 'Describe transfer here'
