@@ -1,5 +1,6 @@
 require 'active_record'
 
+# Maintain the schema
 ActiveRecord::Schema.define(version: 1) do
   unless ActiveRecord::Base.connection.table_exists? :users
     create_table :users, force: :cascade do |t|

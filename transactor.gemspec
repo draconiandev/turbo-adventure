@@ -16,12 +16,12 @@ Gem::Specification.new do |s|
   s.rdoc_options << '--title' << 'transactor' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'transactor'
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rdoc')
   s.add_development_dependency('aruba')
   s.add_development_dependency('pry')
-  s.add_runtime_dependency('gli', '2.17.1')
+  s.add_development_dependency('rake')
+  s.add_development_dependency('rdoc')
   s.add_runtime_dependency('activerecord', '5.1.4')
+  s.add_runtime_dependency('gli', '2.17.1')
   s.add_runtime_dependency('sqlite3', '1.3.13')
   s.add_runtime_dependency('terminal-table', '1.8.0')
 end
