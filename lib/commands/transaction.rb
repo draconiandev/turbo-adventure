@@ -1,5 +1,9 @@
 module Commands
   # Transaction command class
+  # Responsibility of all the commands classes is to parse the arguments
+  # and feed them into the respective models.
+  # Any method here provides a wrapper to do the same operation within the
+  # model.
   class Transaction
     def self.transfer(args)
       from_account = args[0]
