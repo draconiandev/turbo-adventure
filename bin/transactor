@@ -46,8 +46,8 @@ end
 def search_subcommand_for(user)
   user.desc 'Search for a user by name or account number'
   user.arg_name 'query'
-  user.command :search do |add|
-    add.action do |_global_options, _options, args|
+  user.command :search do |search|
+    search.action do |_global_options, _options, args|
       Commands::User.search_from_cli(args.first)
     end
   end
@@ -56,14 +56,27 @@ end
 def remove_subcommand_for(user)
   user.desc 'Remove a user from the system'
   user.arg_name 'account_number'
-  user.command :remove do |add|
-    add.action do |_global_options, _options, args|
+  user.command :remove do |remove|
+    remove.action do |_global_options, _options, args|
       Commands::User.destroy(args)
     end
   end
 end
 
-desc 'Subcommand for all the user options like add, list, remove'
+def transfer_subcommnad_for(transaction)
+  transaction.desc 'Remove a transaction from the system'
+  transaction.arg_name 'from_account_number to_account_number amount'
+  transaction.command :transfer do |transfer|
+    transfer.arg 'from_account_number'
+    transfer.arg 'to_account_number'
+    transfer.arg 'amount'
+    transfer.action do |_global_options, _options, args|
+      Commands::Transaction.transfer(args)
+    end
+  end
+end
+
+desc 'Subcommand for all the transaction options like add, list, remove'
 command :user do |user|
   add_subcommand_for(user)
   list_subcomand_for(user)
@@ -71,13 +84,12 @@ command :user do |user|
   remove_subcommand_for(user)
 end
 
-# desc 'Describe transfer here'
-# arg_name 'Describe arguments to transfer here'
-# command :transfer do |c|
-#   c.action do |global_options,options,args|
-#     puts "transfer command ran"
-#   end
-# end
+desc 'Subcommand for all the transfers'
+arg_name 'Describe arguments to transfer here. Bank can also lend money here'
+command :transact do |transaction|
+  transfer_subcommnad_for(transaction)
+  # lend_subcommand_for(transaction)
+end
 
 # desc 'Describe compute here'
 # arg_name 'Describe arguments to compute here'
