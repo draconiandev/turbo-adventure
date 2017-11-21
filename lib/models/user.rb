@@ -131,7 +131,7 @@ module Models
     # Prints the errors messages in an easy to read format.
     # Can be extended by a module since it is repeating in both the models.
     def self.print_error_messages(user)
-      puts 'Something went wrong with the transaction. Please review the errors'
+      puts 'Something went wrong with the command. Please review the errors'
       user.errors.messages.each do |key, msg|
         puts key.to_s + ' -> '
         msg.each { |m| puts m.capitalize }
