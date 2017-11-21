@@ -14,12 +14,13 @@ module Commands
     end
 
     def self.list(count)
-      list = Models::User.order(id: :desc).limit(count).pluck(:name, :account_number)
+      list = Models::User.order(id: :desc).limit(count)
+                         .pluck(:account_number, :username)
       pretty_print(list)
     end
 
     def self.search_from_cli(query)
-      list = Models::User.search(query).pluck(:name, :account_number)
+      list = Models::User.search(query).pluck(:account_number, :username)
       pretty_print(list)
     end
 
