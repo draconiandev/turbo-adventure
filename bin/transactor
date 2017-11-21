@@ -64,7 +64,7 @@ def remove_subcommand_for(user)
 end
 
 def transfer_subcommnad_for(transaction)
-  transaction.desc 'Remove a transaction from the system'
+  transaction.desc 'Transfer money between two accounts'
   transaction.arg_name 'from_account_number to_account_number amount'
   transaction.command :transfer do |transfer|
     transfer.arg 'from_account_number'
@@ -72,6 +72,18 @@ def transfer_subcommnad_for(transaction)
     transfer.arg 'amount'
     transfer.action do |_global_options, _options, args|
       Commands::Transaction.transfer(args)
+    end
+  end
+end
+
+def lend_subcommand_for(transaction)
+  transaction.desc 'Lend money to an existing account'
+  transaction.arg_name 'to_account_number amount'
+  transaction.command :lend do |lend|
+    lend.arg 'to_account_number'
+    lend.arg 'amount'
+    lend.action do |_global_options, _options, args|
+      Commands::Transaction.lend(args)
     end
   end
 end
@@ -88,7 +100,7 @@ desc 'Subcommand for all the transfers'
 arg_name 'Describe arguments to transfer here. Bank can also lend money here'
 command :transact do |transaction|
   transfer_subcommnad_for(transaction)
-  # lend_subcommand_for(transaction)
+  lend_subcommand_for(transaction)
 end
 
 # desc 'Describe compute here'
