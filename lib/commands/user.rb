@@ -18,13 +18,14 @@ module Commands
     # Prints the same into a table.
     def self.list(count)
       list = Models::User.order(id: :desc).limit(count)
-                         .pluck(:account_number, :username)
+                         .pluck(:account_number, :username, :balance)
       pretty_print(list)
     end
 
     # Calls the search class method from the user model and prints into a table
     def self.search_from_cli(query)
-      list = Models::User.search(query).pluck(:account_number, :username)
+      list = Models::User.search(query)
+                         .pluck(:account_number, :username, :balance)
       pretty_print(list)
     end
 
@@ -45,7 +46,7 @@ module Commands
     def self.pretty_print(list)
       require 'terminal-table'
       table = Terminal::Table.new rows: list,
-                                  headings: ['Account Number', 'Username']
+                                  headings: %w[Account\ Number Username Balance]
       puts table
     end
   end

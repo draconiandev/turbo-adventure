@@ -97,19 +97,19 @@ command :user do |user|
 end
 
 desc 'Subcommand for all the transfers'
-arg_name 'Describe arguments to transfer here. Bank can also lend money here'
 command :transact do |transaction|
   transfer_subcommnad_for(transaction)
   lend_subcommand_for(transaction)
 end
 
-# desc 'Describe compute here'
-# arg_name 'Describe arguments to compute here'
-# command :compute do |c|
-#   c.action do |global_options,options,args|
-#     puts "compute command ran"
-#   end
-# end
+desc 'Calculates the interest for a user taking his balance into account'
+arg_name 'for_account(can either use account number or username)'
+command :compute do |compute|
+  compute.arg 'for_account'
+  compute.action do |_global_options, _options, args|
+    Commands::Compute.calculate_interest(args)
+  end
+end
 
 pre do |_global, _command, _options, _args|
   # Pre logic here
