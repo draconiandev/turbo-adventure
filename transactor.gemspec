@@ -11,15 +11,11 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split('
 ')
   s.require_paths << 'lib'
-  s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc', 'transactor.rdoc']
-  s.rdoc_options << '--title' << 'transactor' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'transactor'
   s.add_development_dependency('aruba')
   s.add_development_dependency('pry')
   s.add_development_dependency('rake')
-  s.add_development_dependency('rdoc')
   s.add_runtime_dependency('activerecord', '5.1.4')
   s.add_runtime_dependency('gli', '2.17.1')
   s.add_runtime_dependency('sqlite3', '1.3.13')

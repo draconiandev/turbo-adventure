@@ -2,6 +2,7 @@ module Commands
   # Compute class
   class Compute
     def self.calculate_interest(args)
+      return empty_args if args.empty?
       require 'utils/compute.rb'
       account = args[0].upcase
       statement = 'account_number IS :val OR username IS :val'
@@ -16,6 +17,10 @@ module Commands
 
     def self.user_not_found
       puts 'Error: User not found. Please check the value you have entered.'
+    end
+
+    def self.empty_args
+      puts 'Error:Enter the username or account number which you want to compute.'
     end
   end
 end

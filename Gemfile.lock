@@ -67,7 +67,6 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rake (12.3.0)
-    rdoc (5.1.0)
     rspec-expectations (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
@@ -89,8 +88,7 @@ DEPENDENCIES
   aruba
   pry
   rake
-  rdoc
   transactor!
 
 BUNDLED WITH
-   1.14.6
+   1.16.0
