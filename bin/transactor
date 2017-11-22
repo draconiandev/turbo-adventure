@@ -17,7 +17,7 @@ end
 
 def add_subcommand_for(user)
   user.desc 'Add a user to the system'
-  user.arg_name 'name phone address email pan aadhar passport username'
+  user.arg_name 'name phone(10, uniq) address email(uniq) pan(10) aadhar(12) passport(8) username(uniq)'
   user.command :add do |add|
     add.arg 'name'
     add.arg 'phone'
