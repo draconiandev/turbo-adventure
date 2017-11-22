@@ -1,0 +1,136 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'transactor'
+
+include GLI::App
+
+program_desc 'Rival Corp is a next generation banking company.'
+
+version Transactor::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+def add_subcommand_for(user)
+  user.desc 'Add a user to the system'
+  user.arg_name 'name phone address email pan aadhar passport username'
+  user.command :add do |add|
+    add.arg 'name'
+    add.arg 'phone'
+    add.arg 'address'
+    add.arg 'email'
+    add.arg 'pan'
+    add.arg 'aadhar'
+    add.arg 'passport'
+    add.arg 'username'
+    add.action do |_global_options, _options, args|
+      Commands::User.create(args)
+    end
+  end
+end
+
+def list_subcomand_for(user)
+  user.desc 'List all the users in the system'
+  user.arg_name 'count (optional, default -> all)'
+  user.command :list do |list|
+    list.flag %i[c count],
+              desc: 'Specify the count. By default, it returns the last 20',
+              must_match: /\d/,
+              default_value: 20
+    list.action do |_global_options, options, _args|
+      Commands::User.list(options[:count])
+    end
+  end
+end
+
+def search_subcommand_for(user)
+  user.desc 'Search for a user by name or account number'
+  user.arg_name 'query'
+  user.command :search do |search|
+    search.action do |_global_options, _options, args|
+      Commands::User.search_from_cli(args.first)
+    end
+  end
+end
+
+def remove_subcommand_for(user)
+  user.desc 'Remove a user from the system'
+  user.arg_name 'account_number'
+  user.command :remove do |remove|
+    remove.action do |_global_options, _options, args|
+      Commands::User.destroy(args)
+    end
+  end
+end
+
+def transfer_subcommnad_for(transaction)
+  transaction.desc 'Transfer money between two accounts'
+  transaction.arg_name 'from_account_number to_account_number amount'
+  transaction.command :transfer do |transfer|
+    transfer.arg 'from_account_number'
+    transfer.arg 'to_account_number'
+    transfer.arg 'amount'
+    transfer.action do |_global_options, _options, args|
+      Commands::Transaction.transfer(args)
+    end
+  end
+end
+
+def lend_subcommand_for(transaction)
+  transaction.desc 'Lend money to an existing account'
+  transaction.arg_name 'to_account_number amount'
+  transaction.command :lend do |lend|
+    lend.arg 'to_account_number'
+    lend.arg 'amount'
+    lend.action do |_global_options, _options, args|
+      Commands::Transaction.lend(args)
+    end
+  end
+end
+
+desc 'Subcommand for all the transaction options like add, list, remove'
+command :user do |user|
+  add_subcommand_for(user)
+  list_subcomand_for(user)
+  search_subcommand_for(user)
+  remove_subcommand_for(user)
+end
+
+desc 'Subcommand for all the transfers'
+command :transact do |transaction|
+  transfer_subcommnad_for(transaction)
+  lend_subcommand_for(transaction)
+end
+
+desc 'Calculates the interest for a user taking his balance into account'
+arg_name 'for_account(can either use account number or username)'
+command :compute do |compute|
+  compute.arg 'for_account'
+  compute.action do |_global_options, _options, args|
+    Commands::Compute.calculate_interest(args)
+  end
+end
+
+pre do |_global, _command, _options, _args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |_global, _command, _options, _args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  p exception
+  true
+end
+
+exit run(ARGV)
