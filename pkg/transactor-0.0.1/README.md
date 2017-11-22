@@ -44,17 +44,24 @@ an account number or a username.
 
 ### `compute` subcommand can be run like `transactor compute <VALUE>` where VALUE can either be username or account number
 
+### You can access the subcommands for each of these commands just by calling that subcommand.
+
+### For ex., if you want to add a new user, use `transactor user add`. The print shows all the parameters needed to add a user.
+
 ## System Dependencies
 
 1. Ruby -> Works only on versions greater than 2.3.0. This application has been developed in 2.4.1.
-1. Sqlite -> Manages the database. Version 3.13
 
 ## Installation Instructions
 
-This application can be installed two ways.
+1. Clone the repo.
+    `git clone git@github.com:draconiandev/turbo-adventure.git`
+    or
+    `git clone https://github.com/draconiandev/turbo-adventure.git`
+1. `cd turbo-adventure` into the folder
+1. `gem install transactor-0.0.1.gem`
 
-1. By installing gem from the `rubygems`. `gem install rivalcorp`
-1. By cloning the repo. If you clone the repo, run with bundle exec bin/transactor
+Now the gem is installed with binstubs. You can use the application by calling `transactor`
 
 ## Developer Notes
 

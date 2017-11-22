@@ -11,6 +11,10 @@ version Transactor::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
+def empty_args
+  p 'Error: Please enter the arguments. Append --help for help.'
+end
+
 def add_subcommand_for(user)
   user.desc 'Add a user to the system'
   user.arg_name 'name phone address email pan aadhar passport username'
@@ -24,6 +28,7 @@ def add_subcommand_for(user)
     add.arg 'passport'
     add.arg 'username'
     add.action do |_global_options, _options, args|
+      next empty_args if args.empty?
       Commands::User.create(args)
     end
   end
