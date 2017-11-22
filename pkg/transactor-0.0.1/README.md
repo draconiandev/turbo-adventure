@@ -59,7 +59,7 @@ an account number or a username.
     or
     `git clone https://github.com/draconiandev/turbo-adventure.git`
 1. `cd turbo-adventure` into the folder
-1. `gem install transactor-0.0.1.gem`
+1. `gem install transactor-0.0.3.gem`
 
 Now the gem is installed with binstubs. You can use the application by calling `transactor`
 
