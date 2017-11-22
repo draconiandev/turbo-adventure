@@ -38,6 +38,7 @@ module Models
     PAN_MESSAGE = 'not a valid format'.freeze
     AADHAR_MESSAGE = 'must contain only digits'.freeze
     PASS_MESSAGE = 'not a valid format'.freeze
+    INVALID_USERNAME_MESSAGE = 'An account number with the given username is in the system'.freeze
 
     # Can easily track sent transactions and received transactions
     # rather than having a singular has_many.
@@ -78,6 +79,7 @@ module Models
                          format: { with: PASSPORT_FORMAT, message: PASS_MESSAGE },
                          allow_blank: true
 
+    validate :invalid_username
     # Generates an account number just before the account is generated.
     before_create :generate_account_number
 
@@ -165,6 +167,23 @@ module Models
         token = SecureRandom.hex(3).upcase
         break token unless User.find_by(account_number: token)
       end
+    end
+
+    # Since we are identifying a user by either the account number or username,
+    # we need to make sure that a user cannot be created with a username
+    # as a particular account number which already exists in the system.
+    # Since we are generating the account number as an after_create action, it is
+    # better to return the error.
+    def invalid_username
+      add_username_error if account_number_clashes?(username)
+    end
+
+    def account_number_clashes?(username)
+      Models::User.exists?(account_number: username.upcase)
+    end
+
+    def add_username_error
+      errors.add(:username, INVALID_USERNAME_MESSAGE)
     end
   end
 end
